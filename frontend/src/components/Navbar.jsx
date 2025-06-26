@@ -43,10 +43,10 @@ function App() {
       <CssBaseline />
       <Box sx={{ flexGrow: 1 }}>
         <AppBar
-          position="sticky"
+          position="fixed"
           sx={{
-            backgroundColor: "rgba(255, 255, 255, 0.95)",
-            backdropFilter: "blur(10px)",
+            backgroundColor: "rgba(255, 255, 255, 0.1)",
+            backdropFilter: "blur(6px)",
             boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1)",
           }}
         >

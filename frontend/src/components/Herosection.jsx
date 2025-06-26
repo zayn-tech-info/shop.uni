@@ -4,8 +4,8 @@ import React from "react";
 
 const Herosection = () => {
   return (
-    <div className="container">
-      <div className="md:grid grid-cols-2 space-y-10">
+    <div className="container mt-10">
+      <div className="lg:grid grid-cols-2 space-y-10">
         <div className="space-y-5">
           <div className="flex items-center gap-2 font-medium">
             <Book className="text-[#f5940b]" />
