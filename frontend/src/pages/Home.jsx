@@ -4,6 +4,10 @@ import Herosection from "../components/Herosection.jsx";
 import SearchComponent from "../components/Search.jsx";
 import Categories from "../components/Categories.jsx"
 import Features from "../components/Features.jsx";
+import Howitworks from "../components/Howitworks.jsx";
+import Statistics from "../components/Statistics.jsx";
+import Calltoaction from "../components/Calltoaction.jsx";
+import Footer from "../components/Footer.jsx";
 const App = () => {
   return (
     <div>
@@ -12,6 +16,10 @@ const App = () => {
       <SearchComponent />
       <Categories />
       <Features />
+      <Howitworks />
+      <Statistics />
+      <Calltoaction />
+      <Footer />
     </div>
   );
 };
