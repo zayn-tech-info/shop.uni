@@ -1,4 +1,5 @@
 import React from "react";
+import { Link as NavLink } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -132,7 +133,7 @@ function App() {
                   size="small"
                   sx={{ color: "text.primary" }}
                 >
-                  Sign In
+                  <NavLink to="/authpage">Sign In</NavLink>
                 </Button>
                 <Button
                   variant="contained"
