@@ -21,7 +21,7 @@ const howitworksArray = [
 ];
 const Howitworks = () => {
   return (
-    <div className="container py-16 bg-white">
+    <div className="container py-16 bg-white container">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">How It Works</h2>

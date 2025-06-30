@@ -60,7 +60,7 @@ const features = [
 
 const Features = () => {
   return (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}> 
           <CssBaseline />
           <Box sx={{ py: 8, backgroundColor: "#f8fafc" }}>
             <Container maxWidth="lg">
@@ -90,8 +90,8 @@ const Features = () => {
         const IconComponent = feature.icon;
 
         return (
-          <div key={index}>
-            <div className="flex flex-col justify-between rounded-xl shadow bg-white transition duration-300 hover:shadow-lg hover:-translate-y-1 w-full">
+          <div className="my-5" key={index}>
+            <div className="flex h-60 w-full items-center flex-col justify-between rounded-xl shadow bg-white transition duration-300 hover:shadow-lg hover:-translate-y-1">
               <div className="p-6">
                 <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
                   <IconComponent size={24} color="#f5940b" />

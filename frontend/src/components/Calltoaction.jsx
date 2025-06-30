@@ -2,7 +2,7 @@ import React from "react";
 
 const Calltoaction = () => {
   return (
-    <div className="py-16">
+    <div className="py-16 container">
       <div className="max-w-2xl mx-auto text-center">
         <h2 className="text-3xl text-[#f5940b] sm:text-4xl font-bold mb-2">
           Ready to Start Trading?
