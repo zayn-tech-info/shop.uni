@@ -2,12 +2,13 @@ import React from "react";
 import { ShoppingCartIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import Login from "../components/Login";
+import Signup from "../components/Signup";
 
 const AuthPage = () => {
   return (
     <>
-      <div className="flex items-center justify-center md:my-10 my-5 text-black">
-        <div className="w-full max-w-2xl mx-auto">
+      <div className="flex items-center justify-center md:my-10 my-5 text-black w-full max-w-2xl mx-auto">
+        <div>
           <div>
             <div className="flex flex-col">
               <div className="flex gap-3 justify-center">
@@ -21,14 +22,18 @@ const AuthPage = () => {
               </div>
               <div className="flex items-center justify-center gap-2 md:my-5 my-3 bg-secondary text-base md:text-lg max-w-xl py-2 px-5 rounded-3xl mx-auto">
                 <div className="bg-background flex justify-center py-1 px-5 w-44 rounded-2xl font-medium text-primary cursor-pointer shadow-xl">
-                  <p>Login</p>
+                  <p>Sign Up</p>
                 </div>
                 <div className="py-1 px-5 w-44 rounded-xl flex justify-center font-medium cursor-pointer">
-                  <p>Sign Up</p>
+                  <p>Login</p>
                 </div>
               </div>
             </div>
-            <Login />
+
+            <div className="flex">
+              <Login />
+              <Signup />
+            </div>
           </div>
         </div>
       </div>
