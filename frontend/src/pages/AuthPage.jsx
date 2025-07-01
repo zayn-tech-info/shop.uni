@@ -11,7 +11,7 @@ const AuthPage = () => {
     <>
       <div className="flex flex-col items-center justify-center md:my-10 my-5 text-black w-full mx-auto">
         <div>
-          <div className="flex flex-col">
+          <div className="flex flex-col pl-10 md:pl-0">
             <div className="flex gap-3 justify-center">
               <ShoppingCartIcon className="bg-primary rounded-md w-8 h-8 text-white p-1" />
               <p className="md:text-2xl text-base md:font-bold font-medium text-black">

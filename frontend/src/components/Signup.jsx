@@ -47,7 +47,7 @@ const LoginInfo = [
 const Signup = () => {
   return (
     <>
-      <div className="md:px-5 px-5 w-full max-w-lg mx-auto py-3">
+      <div className="md:px-5 px-5 pl-10 w-full max-w-lg mx-auto py-3">
         <p className="text-3xl font-medium">Create Account</p>
         <p className="text-base text-gray-500 py-2">
           Buy and sell with fellow students safely.
