@@ -11,7 +11,7 @@ const AuthPage = () => {
     <>
       <div className="flex flex-col items-center justify-center md:my-10 my-5 text-black w-full mx-auto">
         <div>
-          <div className="flex flex-col pl-10 md:pl-0">
+          <div className="flex flex-col md:pl-0">
             <div className="flex gap-3 justify-center">
               <ShoppingCartIcon className="bg-primary rounded-md w-8 h-8 text-white p-1" />
               <p className="md:text-2xl text-base md:font-bold font-medium text-black">
@@ -23,7 +23,7 @@ const AuthPage = () => {
             </div>
             <div className="flex items-center justify-center gap-2 transition-transform duration-300 md:my-5 my-3 bg-secondary text-base md:text-lg max-w-xl py-2 px-5 rounded-3xl mx-auto">
               <div
-                className={` flex justify-center py-1 px-5 w-44 rounded-2xl font-medium  cursor-pointer ${
+                className={`flex justify-center py-1 px-5 w-44 rounded-3xl font-medium  cursor-pointer ${
                   showSignup ? "bg-background text-primary" : ""
                 }`}
                 onClick={() => setShowSignup(true)}
@@ -31,7 +31,7 @@ const AuthPage = () => {
                 <p>Login</p>
               </div>
               <div
-                className={`py-1 px-5 w-44 rounded-xl flex justify-center font-medium cursor-pointer ${
+                className={`py-1 px-5 w-44 rounded-3xl flex justify-center font-medium cursor-pointer ${
                   showSignup ? "" : "bg-background text-primary"
                 }`}
                 onClick={() => setShowSignup(false)}
@@ -42,7 +42,7 @@ const AuthPage = () => {
           </div>
         </div>
         <div
-          className="relative w-[500px] overflow-hidden flex"
+          className="relative w-[500px] shadow-2xl overflow-hidden flex"
           style={{ transition: "all 0.3s" }}
         >
           <div
@@ -54,7 +54,7 @@ const AuthPage = () => {
             <div className="w-[500px] mx-10">
               <Login />
             </div>
-            <div className="w-[500px]">
+            <div className="w-[500px] ">
               <Signup />
             </div>
           </div>

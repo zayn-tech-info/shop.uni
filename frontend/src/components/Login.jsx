@@ -17,7 +17,7 @@ const LoginInfo = [
     nametype: "Password",
     icon: Lock,
     placeholder: "Enter your password",
-    type: "Password",
+    type: "password",
     label: "Password",
   },
 ];

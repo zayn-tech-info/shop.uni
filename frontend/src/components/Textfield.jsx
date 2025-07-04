@@ -4,7 +4,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { Box } from "@mui/material";
 import { useState } from "react";
 
-const Textfield = ({ icon, placeholder, label }) => {
+const Textfield = ({ icon, placeholder, label, type}) => {
   const [focused, setFocused] = useState(false);
   return (
     <Box
@@ -18,6 +18,7 @@ const Textfield = ({ icon, placeholder, label }) => {
         label={focused ? label : ""}
         variant="outlined"
         placeholder={placeholder}
+        type={type}
         fullWidth
         sx={{
           borderRadius: "8px",
