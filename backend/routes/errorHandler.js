@@ -1,9 +1,14 @@
 const errorHandler = (error, req, res, next) => {
-  res.status(error.statusCode).json({
-    status: error.status,
-    message: error.message,
-    stackTrace: error.stack,
-    error: error,
+  const statusCode = error.statusCode || 500;
+  const status = error.status || "error";
+  const message = error.message || "something went wrong";
+
+  res.status(statusCode).json({
+    status,
+    message,
+    ...(process.env.NODE_ENV === "development" && {
+      stackTrace: error.stack,
+    }),
   });
 };
 

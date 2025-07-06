@@ -1,8 +1,7 @@
- 
-const sendToken = (user, res, message = "") => {
+const sendToken = (user, res, message) => {
   const token = user.generateJWT();
 
-  res.cookie("token", {
+  res.cookie("token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
@@ -13,7 +12,7 @@ const sendToken = (user, res, message = "") => {
     success: true,
     message,
     user: {
-      user: user._id,
+      id: user._id,
       fullname: user.fullname,
       username: user.username,
       email: user.email,
@@ -21,3 +20,5 @@ const sendToken = (user, res, message = "") => {
     },
   });
 };
+
+module.exports = sendToken;

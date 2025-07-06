@@ -4,23 +4,20 @@ const customError = require("../utils/error");
 const sendToken = require("../utils/sendToken");
 
 const signup = asyncErrorHandler(async (req, res, next) => {
-  // 1. Make sure the user provide all the given field
   const { username, fullname, email, password } = req.body;
 
-  if (!username || fullname || email || password) {
+  if (!username || !fullname || !email || !password) {
     const error = new customError("All fields are required", 400);
-    next(error);
+    return next(error);
   }
 
-  // 2. check if there isn't any existing user with the credientials provided
-  const existingUser = User.find({ email });
+  const existingUser = await User.findOne({ email });
 
   if (existingUser) {
     const error = new customError("User already exist with this email", 400);
-    next(error);
+    return next(error);
   }
 
-  //   if all passes then create the user
   const user = await User.create({
     fullname,
     username,
@@ -30,6 +27,28 @@ const signup = asyncErrorHandler(async (req, res, next) => {
   sendToken(user, res, "User registered successfully");
 });
 
-const login = asyncErrorHandler(async (req, res) => {});
+
+
+const login = asyncErrorHandler(async (req, res, next) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    const error = new customError("All fields are required", 404);
+    next(error);
+  }
+
+  const user = await User.findOne({ email }).select("+password");
+  console.log(user);
+  
+
+  const isPswrdMatch = await user.comparePswrd(password, user.password);
+
+  if (!user || !isPswrdMatch) {
+    const error = new customError("invalid email or password");
+    return next(error);
+  }
+
+  sendToken(user, res, "user logined succefully");
+});
 
 module.exports = { signup, login };

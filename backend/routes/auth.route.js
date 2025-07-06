@@ -6,6 +6,6 @@ const { login, signup } = require("../controllers/auth.controller");
 const route = express.Router();
 
 route.post("/signup", signup);
-route.get("/login", login);
+route.post("/login", login);
 
 module.exports = route

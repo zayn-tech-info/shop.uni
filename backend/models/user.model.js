@@ -20,7 +20,7 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "Please add an email"],
       unique: true,
-      lowercase: true,
+      lowercase: [true, "Please enter a valid email"],
       match: [
         /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
         "Please enter a valid email",
@@ -29,7 +29,7 @@ const userSchema = mongoose.Schema(
     password: {
       type: String,
       required: [true, "Please add a password"],
-      minlength: 8,
+      minlength: [8, "Password must be at least 8 characters long"],
       select: false,
     },
     role: {
@@ -62,11 +62,20 @@ userSchema.pre("save", async function (next) {
 });
 
 userSchema.methods.generateJWT = function () {
-  return jwt.sign({ 
-    id: this._id, role: this.role },
-    process.env.JWT_SECRET, {
-    expiresIn: "7d",
-  });
+  return jwt.sign(
+    {
+      id: this._id,
+      role: this.role,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "7d",
+    }
+  );
+};
+
+userSchema.methods.comparePswrd = async function (password, pswrd) {
+  return await bycrypt.compare(password, pswrd);
 };
 
 const User = mongoose.model("User", userSchema);
