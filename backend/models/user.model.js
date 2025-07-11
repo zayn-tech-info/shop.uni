@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bycrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 const userSchema = mongoose.Schema(
   {
@@ -45,8 +46,12 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    resetPasswordToken: String,
-    resetPasswordExpire: Date,
+    resetPasswordToken: {
+      type: String,
+      select: false,
+    },
+    resetPasswordTokenExp: Date,
+    resetPasswordAt: Date,
   },
   {
     timestamps: true,
@@ -76,6 +81,30 @@ userSchema.methods.generateJWT = function () {
 
 userSchema.methods.comparePswrd = async function (password, pswrd) {
   return await bycrypt.compare(password, pswrd);
+};
+
+userSchema.methods.isPswrdChanged = async function (tokenIAt) {
+  if (this.resetPasswordAt) {
+    const isPswrdChangedTimeStamp = parseInt(
+      this.resetPasswordAt.getTime() / 1000,
+      10
+    );
+
+    return tokenIAt < isPswrdChangedTimeStamp;
+  }
+  return false;
+};
+
+userSchema.methods.resetPswrdToken = function () {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+
+  this.resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+  this.resetPasswordTokenExp = Date.now() * 10 * 60 * 1000;
+
+  return resetToken;
 };
 
 const User = mongoose.model("User", userSchema);
