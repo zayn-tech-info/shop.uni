@@ -5,6 +5,7 @@ const sendToken = require("../utils/sendToken");
 const jwt = require("jsonwebtoken");
 const util = require("util");
 
+
 const signup = asyncErrorHandler(async (req, res, next) => {
   const { username, fullname, email, password } = req.body;
   if (!username || !fullname || !email || !password) {
@@ -61,6 +62,8 @@ const logout = asyncErrorHandler((req, res, next) => {
   });
 });
 
+
+
 const forgotPassword = asyncErrorHandler(async (req, res, next) => {
   const user = User.findOne({ email: req.email.body });
   if (!user) {
@@ -70,6 +73,8 @@ const forgotPassword = asyncErrorHandler(async (req, res, next) => {
     );
     return next(error);
   }
+
+
 
   const resetToken = user.resetPswrdToken();
 
