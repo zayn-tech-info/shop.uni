@@ -4,7 +4,7 @@ const customError = require("../utils/error");
 const sendToken = require("../utils/sendToken");
 const jwt = require("jsonwebtoken");
 const util = require("util");
-
+const sendMail = require("../utils/send.mail");
 
 const signup = asyncErrorHandler(async (req, res, next) => {
   const { username, fullname, email, password } = req.body;
@@ -48,7 +48,7 @@ const login = asyncErrorHandler(async (req, res, next) => {
   sendToken(user, res, "user logined succefully");
 });
 
-const logout = asyncErrorHandler((req, res, next) => {
+const logout = asyncErrorHandler(async (req, res, next) => {
   res.cookie("token", "", {
     httpOnly: true,
     sameSite: "strict",
@@ -62,10 +62,8 @@ const logout = asyncErrorHandler((req, res, next) => {
   });
 });
 
-
-
 const forgotPassword = asyncErrorHandler(async (req, res, next) => {
-  const user = User.findOne({ email: req.email.body });
+  const user = await User.findOne({ email: req.body.email });
   if (!user) {
     const error = new customError(
       "We could not find a user with the given email",
@@ -74,15 +72,42 @@ const forgotPassword = asyncErrorHandler(async (req, res, next) => {
     return next(error);
   }
 
-
-
   const resetToken = user.resetPswrdToken();
 
   await user.save({ validateBeforeSave: false });
+
+  const resetUrl = `${req.protocol}://${req.get(
+    "host"
+  )}/api/v1/user/resetPassword/${resetToken}`;
+
+  const message = `We have recieved your request to reset your password\nPlease use the link below to reset your password\n\n${resetUrl}`;
+
+  try {
+    await sendMail({
+      email: user.email,
+      subject: "Shop.uni password reset",
+      message,
+    });
+
+    res.status(200).json({
+      status: "success",
+      message: "Password resetlink sent to your email",
+    });
+  } catch (error) {
+    user.resetPasswordToken = undefined,
+      user.resetPasswordTokenExp = undefined
+    await user.save({ validateBeforeSave: false });
+
+    return next(
+      new customError(
+        "An error occured sending the email, please try again",
+        500
+      )
+    );
+  }
 });
 
 const protectRoute = asyncErrorHandler(async (req, res, next) => {
-  
   const testToken = req.header.authorization;
 
   let token;
@@ -121,7 +146,7 @@ const protectRoute = asyncErrorHandler(async (req, res, next) => {
 
 const restrict = (role) => {
   return (req, res, next) => {
-    if (req.user.role !== "vendor") {
+    if (req.user.role !== role) {
       const error = new customError(
         "You are not allowed to perform this action",
         403

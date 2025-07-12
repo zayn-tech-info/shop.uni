@@ -1,6 +1,5 @@
 const express = require("express");
-const errorHandler = require("./errorHandler");
-const customError = require("../utils/error");
+
 const {
   login,
   signup,
@@ -13,6 +12,8 @@ const route = express.Router();
 route.post("/signup", signup);
 route.post("/login", login);
 route.get("/logout", logout);
-route.post("forgotpassword", forgotPassword);
+route.patch("/forgotPassword", forgotPassword);
+// route.patch("resetPassword/:token", resetPassword);
+
 
 module.exports = route;
