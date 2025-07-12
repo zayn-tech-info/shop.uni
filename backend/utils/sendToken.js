@@ -11,13 +11,14 @@ const sendToken = (user, res, message) => {
   res.status(200).json({
     success: true,
     message,
-    user: {
-      id: user._id,
-      fullname: user.fullname,
-      username: user.username,
-      email: user.email,
-      role: user.role,
-    },
+    token
+    // user: {
+    //   id: user._id,
+    //   fullname: user.fullname,
+    //   username: user.username,
+    //   email: user.email,
+    //   role: user.role,
+    // },
   });
 };
 

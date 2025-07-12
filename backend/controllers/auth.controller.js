@@ -140,14 +140,34 @@ const resetPassword = asyncErrorHandler(async (req, res, next) => {
 
   await user.save();
 
-  sendToken(user, res, "User logged in successfully");
+  sendToken(user, res, "Password changed successfully");
+});
+
+const updatePassword = asyncErrorHandler(async (req, res, next) => {
+  const user = await User.findById(req.user._id).select("+password");
+
+    if (!user) {
+    return next(new customError("User not found", 404));
+  }
+
+  if (!(await user.comparePswrd(req.body.currentPassword, user.password))) {
+    return next(
+      new customError("The current password your provide is not correct", 401)
+    );
+  }
+
+  user.password = req.body.password;
+  user.confirmPassword = req.body.confirmPassword;
+  await user.save();
+
+  sendToken(user, res, "Password Updated successfully");
 });
 
 const protectRoute = asyncErrorHandler(async (req, res, next) => {
-  const testToken = req.header.authorization;
+  const testToken = req.headers.authorization;
 
   let token;
-  if (testToken && testToken.startWith("bearer")) {
+  if (testToken && testToken.startsWith("Bearer")) {
     token = testToken.split(" ")[1];
   }
   if (!token) {
@@ -200,4 +220,5 @@ module.exports = {
   restrict,
   forgotPassword,
   resetPassword,
+  updatePassword
 };
