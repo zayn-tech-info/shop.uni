@@ -102,7 +102,7 @@ userSchema.methods.resetPswrdToken = function () {
     .createHash("sha256")
     .update(resetToken)
     .digest("hex");
-  this.resetPasswordTokenExp = Date.now() * 10 * 60 * 1000;
+  this.resetPasswordTokenExp = Date.now() + 10 * 60 * 1000;
 
   return resetToken;
 };

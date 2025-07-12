@@ -5,6 +5,7 @@ const sendToken = require("../utils/sendToken");
 const jwt = require("jsonwebtoken");
 const util = require("util");
 const sendMail = require("../utils/send.mail");
+const crypto = require("crypto");
 
 const signup = asyncErrorHandler(async (req, res, next) => {
   const { username, fullname, email, password } = req.body;
@@ -94,8 +95,8 @@ const forgotPassword = asyncErrorHandler(async (req, res, next) => {
       message: "Password resetlink sent to your email",
     });
   } catch (error) {
-    user.resetPasswordToken = undefined,
-      user.resetPasswordTokenExp = undefined
+    (user.resetPasswordToken = undefined),
+      (user.resetPasswordTokenExp = undefined);
     await user.save({ validateBeforeSave: false });
 
     return next(
@@ -105,6 +106,41 @@ const forgotPassword = asyncErrorHandler(async (req, res, next) => {
       )
     );
   }
+});
+
+const resetPassword = asyncErrorHandler(async (req, res, next) => {
+  const token = crypto
+    .createHash("sha256")
+    .update(req.params.token)
+    .digest("hex");
+  const user = await User.findOne({
+    resetPasswordToken: token,
+    resetPasswordTokenExp: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    const error = new customError(
+      "The password reset link is invalid or has expired. Please request a new one.",
+      400
+    );
+    return next(error);
+  }
+
+  const { password, confirmPassword } = req.body;
+  user.password = password;
+  user.confirmPassword = confirmPassword;
+
+  if (password !== confirmPassword) {
+    const error = new customError("Password don't match", 400);
+    return next(error);
+  }
+  user.resetPasswordAt = Date.now();
+  user.resetPasswordToken = undefined;
+  user.resetPasswordTokenExp = undefined;
+
+  await user.save();
+
+  sendToken(user, res, "User logged in successfully");
 });
 
 const protectRoute = asyncErrorHandler(async (req, res, next) => {
@@ -163,4 +199,5 @@ module.exports = {
   logout,
   restrict,
   forgotPassword,
+  resetPassword,
 };
